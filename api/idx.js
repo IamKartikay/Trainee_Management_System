@@ -6,8 +6,10 @@ const port = 5001;
 const app = express();
 const TrainingDetail = require("./Models/TrainingDetails");
 const BasicDetail = require("./Models/BasicDetails");
-const TraineeAddress = require("./Models/TrainginAddress");
 const Trainee = require(".//Models/Trainee");
+const Lab = require(".//Models/LabsSchema");
+const Dep = require(".//Models/DepartmentSchema");
+
 
 app.use(cors());
 app.use(express.json());
@@ -21,9 +23,48 @@ async function main() {
   console.log("connected");
 }
 
-app.get("/", async (req, res) => {
-  res.send("heeloo");
-  console.log(req.url);
+app.get('/' ,(req,res)=>{
+  res.send("hello")
+})
+
+
+app.get('/d' ,async(req,res)=>{
+  var departments = await Dep.find({} , {name:1});
+  console.log(departments)
+  const Ongoingcount = await Trainee.aggregate([
+    {
+      $match: {
+        departmentDetails: new mongoose.Types.ObjectId("64e29dd5d8279e2afc4e3ea0")
+      }
+    },
+    {
+      $lookup: {
+        from: 'trainingdetails', // Collection name for TrainingDetail
+        localField: 'trainingDetails',
+        foreignField: '_id',
+        as: 'trainingDetailsData'
+      }
+    },
+    {
+      $match: {
+        'trainingDetailsData.training_status': 'Ongoing'
+      }
+    },
+    {
+      $count: 'Ongoingcount'
+    }
+  ]);
+  console.log(Ongoingcount[0].Ongoingcount);
+})
+
+app.post("/post", async (req, res) => {
+  const arr = req.body.labs;
+  arr.map(async (lab) => {
+    const a = await Lab.create({
+      name: lab
+    })
+    console.log(a);
+  })
 });
 
 app.get("/details", async (req, res) => {
@@ -119,3 +160,5 @@ app.get("/show", async (req, res) => {
 app.listen(port, () => {
   console.log(`Listening at ${port}`);
 });
+
+

@@ -1,12 +1,41 @@
-import React, { useState, useContext, createContext } from "react";
+import React, { useState, useContext, createContext, useEffect } from "react";
 
 const Context = createContext();
 
 export const StateContext = ({ children }) => {
+
+  useEffect(()=>{
+    const admin = JSON.parse(localStorage.getItem('admin'))
+    const labname = JSON.parse(localStorage.getItem('labname'))
+    if(labname)
+    {
+      setSelectedLab(labname)
+    }
+    if(admin)
+    {
+      setAdminName(admin.name)
+      setAdminEmail(admin.email)
+      setLoggedIn(true)
+    }
+  }, [])
+
+
+  
+  const [loggedIn , setLoggedIn] = useState(false)
+  const [adminName , setAdminName] = useState('')
+  const [adminEmail , setAdminEmail] = useState('')
+  const [adminPassword , setAdminPassword] = useState('')
+
+  const [selectedLab , setSelectedLab] = useState('')
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [contactNo, setContactNo] = useState(0);
-  const [address, setAddress] = useState("");
+  const [contactNo, setContactNo] = useState('');
+  const [address, setAddress] = useState({
+    current: '',
+    permanent: '',
+  });
+  const [email, setEmail] = useState('');
 
   const [fieldName, setFieldName] = useState("");
   const [mentorName, setMentorName] = useState("");
@@ -20,8 +49,66 @@ export const StateContext = ({ children }) => {
   const [tenthMarks, setTenthMarks] = useState("");
   const [twelthMarks, setTwelthMarks] = useState("");
   const [twelthSchool, setTwelthSchool] = useState("");
+  const [btechDetails, setBtechDetails] = useState({
+    btech_institute: '',
+    btech_yop: '',
+    btech_sem1_grades: '',
+    btech_sem2_grades: '',
+    btech_sem3_grades: '',
+    btech_sem4_grades: '',
+    btech_sem5_grades: '',
+    btech_sem6_grades: '',
+    btech_sem7_grades: '',
+    btech_sem8_grades: '',
+  })
+
+  const [mtechDetails, setMtechDetails] = useState({
+    mtech_institute: '',
+    mtech_yop: '',
+    mtech_sem1_grades: '',
+    mtech_sem2_grades: '',
+    mtech_sem3_grades: '',
+    mtech_sem4_grades: '',
+  })
 
   //const [] = useState('');
+  
+  const btechDetailsHandler = (e) => {
+    console.log(e.target.value);
+    const {value, name} = e.target
+    setBtechDetails((prev)=>{
+      return {
+        ...prev,
+        [name] : value
+      }
+    })
+  };
+  const mtechDetailsHandler = (e) => {
+    const {value, name} = e.target
+    setMtechDetails((prev)=>{
+      return {
+        ...prev,
+        [name] : value
+      }
+    })
+  };
+
+
+  const AdminNameHandler = (e) => {
+    setAdminName(e.target.value);
+  };
+
+  const AdminEmailHandler = (e) => {
+    setAdminEmail(e.target.value);
+  };
+
+  const AdminPasswordHandler = (e) => {
+    setAdminPassword(e.target.value);
+  };
+
+  const LabSelectionHandler = (labname) => {
+    setSelectedLab(labname);
+  };
 
   const FnameHandler = (e) => {
     setFirstName(e.target.value);
@@ -32,8 +119,18 @@ export const StateContext = ({ children }) => {
   };
 
   const addressHandler = (e) => {
-    setAddress(e.target.value);
+    const {value, name} = e.target
+    setAddress((prev)=>{
+      return {
+        ...prev,
+        [name] : value
+      }
+    })
   };
+
+  const emailHandler = (e) =>{
+    setEmail(e.target.value);
+  }
 
   const contactNHandler = (e) => {
     setContactNo(e.target.value);
@@ -49,12 +146,38 @@ export const StateContext = ({ children }) => {
     setTrainingStart(e.target.value);
   };
   const trainingEndHandler = (e) => {
+    //only for 1<periods<12 and period = 12 multiple i.e. year 
+    // if (trainingStart && trainingPeriod) {
+    //   const period = trainingPeriod;
+    //   console.log(typeof period);
+  
+    //   var [syear, smonth, sdate] = trainingStart.split('-');
+    //   syear = Number(syear);
+    //   smonth = Number(smonth);
+    //   sdate = Number(sdate);
+  
+    //   var eyear = syear;
+    //   var emonth = smonth + period;
+    //   var edate = sdate;
+  
+    //   while (emonth > 12) {
+    //     emonth -= 12;
+    //     eyear += 1;
+    //   }
+  
+    //   if (period % 12 === 0) {
+    //     eyear = syear + period / 12;
+    //   }
+  
+    //   const end = `${eyear}-${emonth.toString().padStart(2, '0')}-${edate.toString().padStart(2, '0')}`;
+    //   return end;
+    // }
     setTrainingEnd(e.target.value);
   };
-  const trainingPeriodHandler = (period) => {
-    setTrainingPeriod(period);
+  const trainingPeriodHandler =  (e) => {
+    setTrainingPeriod(e.target.value);
   };
-  const trainingStatusHandler = async (e) => {
+  const trainingStatusHandler =  (e) => {
     setTrainingStatus(e.target.value);
   };
   const departmentNameHandler = (e) => {
@@ -77,17 +200,60 @@ export const StateContext = ({ children }) => {
     setContactNo(e.target.value);
   };
 
+  const setBasicDetails = {
+    setFirstName,
+    setLastName,
+    setContactNo,
+    setAddress,
+    setEmail,
+  }
+
+  const setAcademicDetails = {
+    setTenthSchool,
+    setTenthMarks,
+    setTwelthMarks,
+    setTwelthSchool,
+    setBtechDetails,
+    setMtechDetails,
+  }
+
+  const setTrainingDetails = {
+    setFieldName,
+    setMentorName,
+    setTrainingStart,
+    setTrainingEnd,
+    setTrainingPeriod,
+    setTrainingStatus,
+    setDepartmentName
+  }
+
   return (
     <Context.Provider
       value={{
+        loggedIn,
+        setLoggedIn,
+
+        adminName,
+        adminEmail,
+        adminPassword,
+        AdminNameHandler,
+        AdminEmailHandler,
+        AdminPasswordHandler,
+
+
+        selectedLab,
+        LabSelectionHandler,
+
         firstName,
         lastName,
         contactNo,
         address,
+        email,
         FnameHandler,
         LnameHandler,
         addressHandler,
         contactNHandler,
+        emailHandler,
 
         fieldName,
         mentorName,
@@ -108,10 +274,19 @@ export const StateContext = ({ children }) => {
         tenthMarks,
         twelthMarks,
         twelthSchool,
+        btechDetails,
+        mtechDetails,
         tenthSchoolHandler,
         tenthMarksHandler,
         twelthMarksHandler,
         twelthSchoolHandler,
+        btechDetailsHandler,
+        mtechDetailsHandler,
+
+
+        setBasicDetails,
+        setAcademicDetails,
+        setTrainingDetails,
       }}
     >
       {children}

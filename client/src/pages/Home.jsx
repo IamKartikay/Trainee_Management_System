@@ -1,4 +1,4 @@
-import { useState, useContext, createContext } from "react";
+import { useState, useEffect } from "react";
 import logo from "../assets/logo.png";
 import Navbar from "../components/Navbar";
 import LabCard from "../components/LabCard";
@@ -7,27 +7,34 @@ import {Navigate, Link } from 'react-router-dom'
 const text =
   "The DRDO was established in 1958 by combining the Defence Science Organisation and some of the technical development establishments. A separate Department of Defence Research and Development was formed in 1980, which later administered DRDO";
 
-const labContext = createContext('');
-
-
 function Home() {
-  const [lab, setLab] = useState('');
-  const labHandler = (lab) => {
-    setLab(lab);
-  }
+
+  const [labs, setLabs] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    await fetch("http://localhost:5001/labs")
+      .then((response) => response.json()) // Parse the response as JSON
+      .then((data) => {
+        setLabs(data); // Update the state with the received data
+      })
+      .catch((error) => {
+        console.error("Error fetching labs:", error);
+      });
+  };
 
   return (
     <>
-      <Navbar />
       <div className="labCards">
-        
-          <LabCard labName="DESIDOC" about={text} img={logo} labHandler = {labHandler}/>
-          <LabCard labName="ISSA" about={text} img={logo} labHandler = {labHandler} />
-          <LabCard labName="CEPTAM" about={text} img={logo} labHandler = {labHandler} />
-          
+          {
+            labs.map((lab) => (
+              <LabCard labName={lab} about={text} img={logo} />
+            ))
+          }     
       </div>
-
-      <h1>{lab}</h1>
     </>
   );
 }

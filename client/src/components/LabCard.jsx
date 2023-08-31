@@ -1,7 +1,22 @@
-import React from "react";
-import {Navigate, Link } from 'react-router-dom'
+import React, {useContext} from "react";
+import {useNavigate, Link } from 'react-router-dom'
+import Context from "../context/StateContext";
 
-const LabCard = ({labName, about, img, labHandler}) => {
+const LabCard = ({labName, about, img}) => {
+  const {LabSelectionHandler , loggedIn} = useContext(Context)
+  const navigate = useNavigate();
+
+  const handleClick = async() => {
+    localStorage.setItem("labname" , JSON.stringify(labName))
+    await LabSelectionHandler(labName);
+    if(loggedIn){
+      navigate(`/${labName}/dashboard`)
+    }else{
+      alert('Please Login')
+      navigate('/login')
+    }
+  }
+
   return (
     <div>
       <div className="card" style={{width: '18rem'}}>
@@ -11,9 +26,9 @@ const LabCard = ({labName, about, img, labHandler}) => {
           <p className="card-text">
             {about}
           </p>
-          <Link to='/DESIDOC_Management_System' className="btn btn-primary" onClick={()=>labHandler(labName)}>
+          <button className="btn btn-primary" onClick={handleClick} >
             {labName} Management System
-          </Link>
+          </button>
 
         </div>
       </div>

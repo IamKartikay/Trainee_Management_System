@@ -1,32 +1,26 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Context from "../../context/StateContext";
-
+import './Form.css'
 const BasicDetails = ({step, nextStep}) => {
+
+
   
   const {
     firstName,
     lastName,
     contactNo,
     address,
+    email,
     FnameHandler,
     LnameHandler,
     addressHandler,
     contactNHandler,
+    emailHandler,
   } = useContext(Context);
   
-  // const handleSubmit = (event) =>{
-  //   event.preventDefault()
-  //   let FullName = firstName+" "+lastName;
-  //   const res = {
-  //     name: FullName,
-  //     contact: contactNo,
-  //     address: address
-  //   }
-  //   console.log(res)
-  // }
-
   return (
-    <div className="container"> 
+    <>
+      <div className="container"> 
       <h1>Enter Trainee Basic Details</h1>
       <form onSubmit={nextStep}>
         <div>
@@ -50,10 +44,22 @@ const BasicDetails = ({step, nextStep}) => {
         </div>
 
         <div>
-          <label>Enter Address</label>
+          <label>Enter Current Address</label>
           <input
             type="text"
-            value={address}
+            value={address.current}
+            name="current"
+            className="form-control"
+            onChange={addressHandler}
+          />
+        </div>
+
+        <div>
+          <label>Enter Permanent Address</label>
+          <input
+            type="text"
+            value={address.permanent}
+            name="permanent"
             className="form-control"
             onChange={addressHandler}
           />
@@ -69,11 +75,22 @@ const BasicDetails = ({step, nextStep}) => {
           />
         </div>
 
-        <button type="submit" >
+        <div>
+          <label>Enter Email</label>
+          <input
+            type="email"
+            value={email}
+            className="form-control"
+            onChange={emailHandler}
+          />
+        </div>
+
+        <button className="formbutton" type="submit" >
           Continue to step {step+1}
         </button>
       </form>  
     </div>
+    </>
   );
 };
 
