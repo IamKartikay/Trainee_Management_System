@@ -13,7 +13,6 @@ const adminSchema = new Schema({
 });
 
 //static signup method
-
 adminSchema.statics.signup = async function(name , email, password) {
 
   //validate we have some values or not

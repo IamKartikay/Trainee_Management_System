@@ -75,17 +75,19 @@ body {
   height: 50px;
   margin-top: 20px;
   list-style-type: none;
+  gap: 5px;
 }
 
 .SidebarList .option .title{
   flex: 70%;
   color: white;
   display: grid;
-  place-items: center;
+
   font-size: 23px;
-  margin-right: 10px;
+  margin-right: 20px;
   text-decoration: none;
-  padding-right: 25px;
+  /* padding-right: 20px; */
+  text-align: left;
 }
 
 .SidebarList :hover{
@@ -99,7 +101,7 @@ body {
   flex: 30%;
   font-size: 30px;
   margin-left: 10px;
-  padding-left: 30px;
+  padding-left: 10px;
 }
 
 

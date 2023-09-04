@@ -13,6 +13,7 @@ const AcademicDetail = require("./Models/AcademicSchema");
 const LabDetails = require("./Models/LabsSchema");
 const DepartmentDetail = require("./Models/DepartmentSchema");
 const userRoutes = require("./routes/user");
+require("dotenv").config()
 
 app.use(cors());
 app.use(express.json());
@@ -22,9 +23,9 @@ app.use("/api/admin", userRoutes);
 main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(
-    "mongodb+srv://sys_admin:O0PQUJXFq2BaTaav@cluster0.tmchiei.mongodb.net/?retryWrites=true&w=majority"
+    `mongodb+srv://${process.env.MONGO_DB_NAME}:${process.env.MONGO_DB_PASSWORD}@cluster0.tmchiei.mongodb.net/?retryWrites=true&w=majority`
   );
-  console.log("connected");
+  console.log('connected');
 }
 
 

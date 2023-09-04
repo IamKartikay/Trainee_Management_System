@@ -11,3 +11,7 @@ const TraineeBasicDetails = new Schema({
 
 const BasicDetail = mongoose.model('TraineeBasicDetails',TraineeBasicDetails)
 module.exports = BasicDetail;
+
+
+
+

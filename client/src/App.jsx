@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import AddTrainee from "./pages/AddTrainee";
@@ -11,15 +11,18 @@ import AddDepartment from './pages/AddDepartment'
 
 import "./App.css";
 import Dashboard from "./pages/Dashboard";
+import Login from './pages/Login'
 import Signup from "./pages/Signup";
 
 const App = () => {
+  const [key, setKey] = useState(Date.now());
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="/login" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/:id" element={<MSystemLayout/>}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="addTrainee" element={<AddTrainee />} />

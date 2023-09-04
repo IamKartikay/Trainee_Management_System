@@ -88,7 +88,8 @@ const AddTrainee = ({ update, params }) => {
       {step === 2 && (
         <AcademicDetails step={step} nextStep={nextStep} prevStep={prevStep} />
       )}
-      {step === 3 && <TrainingDetails step={step} update={update} updationId={params._id}/>}
+      {update && step === 3 && <TrainingDetails step={step} update={update} updationId={params._id}/>}
+      {step === 3 && <TrainingDetails step={step}/>}
     </>
   );
 };

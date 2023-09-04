@@ -19,8 +19,6 @@ export const StateContext = ({ children }) => {
     }
   }, [])
 
-
-  
   const [loggedIn , setLoggedIn] = useState(false)
   const [adminName , setAdminName] = useState('')
   const [adminEmail , setAdminEmail] = useState('')
@@ -36,7 +34,6 @@ export const StateContext = ({ children }) => {
     permanent: '',
   });
   const [email, setEmail] = useState('');
-
   const [fieldName, setFieldName] = useState("");
   const [mentorName, setMentorName] = useState("");
   const [trainingStart, setTrainingStart] = useState("");
@@ -71,8 +68,6 @@ export const StateContext = ({ children }) => {
     mtech_sem4_grades: '',
   })
 
-  //const [] = useState('');
-  
   const btechDetailsHandler = (e) => {
     console.log(e.target.value);
     const {value, name} = e.target
@@ -93,19 +88,7 @@ export const StateContext = ({ children }) => {
     })
   };
 
-
-  const AdminNameHandler = (e) => {
-    setAdminName(e.target.value);
-  };
-
-  const AdminEmailHandler = (e) => {
-    setAdminEmail(e.target.value);
-  };
-
-  const AdminPasswordHandler = (e) => {
-    setAdminPassword(e.target.value);
-  };
-
+ 
   const LabSelectionHandler = (labname) => {
     setSelectedLab(labname);
   };
@@ -146,32 +129,6 @@ export const StateContext = ({ children }) => {
     setTrainingStart(e.target.value);
   };
   const trainingEndHandler = (e) => {
-    //only for 1<periods<12 and period = 12 multiple i.e. year 
-    // if (trainingStart && trainingPeriod) {
-    //   const period = trainingPeriod;
-    //   console.log(typeof period);
-  
-    //   var [syear, smonth, sdate] = trainingStart.split('-');
-    //   syear = Number(syear);
-    //   smonth = Number(smonth);
-    //   sdate = Number(sdate);
-  
-    //   var eyear = syear;
-    //   var emonth = smonth + period;
-    //   var edate = sdate;
-  
-    //   while (emonth > 12) {
-    //     emonth -= 12;
-    //     eyear += 1;
-    //   }
-  
-    //   if (period % 12 === 0) {
-    //     eyear = syear + period / 12;
-    //   }
-  
-    //   const end = `${eyear}-${emonth.toString().padStart(2, '0')}-${edate.toString().padStart(2, '0')}`;
-    //   return end;
-    // }
     setTrainingEnd(e.target.value);
   };
   const trainingPeriodHandler =  (e) => {
@@ -183,7 +140,6 @@ export const StateContext = ({ children }) => {
   const departmentNameHandler = (e) => {
     setDepartmentName(e.target.value);
   };
-
   const tenthSchoolHandler = (e) => {
     setTenthSchool(e.target.value);
   };
@@ -232,18 +188,15 @@ export const StateContext = ({ children }) => {
       value={{
         loggedIn,
         setLoggedIn,
-
         adminName,
         adminEmail,
         adminPassword,
-        AdminNameHandler,
-        AdminEmailHandler,
-        AdminPasswordHandler,
-
+        setAdminName,
+        setAdminEmail,
+        setAdminPassword,
 
         selectedLab,
         LabSelectionHandler,
-
         firstName,
         lastName,
         contactNo,
@@ -254,7 +207,6 @@ export const StateContext = ({ children }) => {
         addressHandler,
         contactNHandler,
         emailHandler,
-
         fieldName,
         mentorName,
         trainingStart,
@@ -269,7 +221,6 @@ export const StateContext = ({ children }) => {
         trainingPeriodHandler,
         trainingStatusHandler,
         departmentNameHandler,
-
         tenthSchool,
         tenthMarks,
         twelthMarks,
@@ -282,8 +233,6 @@ export const StateContext = ({ children }) => {
         twelthSchoolHandler,
         btechDetailsHandler,
         mtechDetailsHandler,
-
-
         setBasicDetails,
         setAcademicDetails,
         setTrainingDetails,

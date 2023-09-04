@@ -2,10 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Context from "../context/StateContext";
 
-const Signup = () => {
-
+const Login = () => {
   const navigate = useNavigate();
+
   const {
+    setLoggedIn,
+    selectedLab,
     adminName,
     adminEmail,
     adminPassword,
@@ -14,10 +16,11 @@ const Signup = () => {
     setAdminPassword,
   } = useContext(Context);
 
+  const [loginError, setLoginError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5001/api/admin/signup", {
+    const response = await fetch("http://localhost:5001/api/admin/login", {
       method: "POST",
       body: JSON.stringify({
         name: adminName,
@@ -30,9 +33,14 @@ const Signup = () => {
     });
     const json = await response.json();
     if (response.ok) {
-      alert('Signup successful')
-      location.reload();
-      navigate('/login');
+      await setLoggedIn(true);
+      localStorage.setItem("admin", JSON.stringify(json));
+      if(!selectedLab)
+      {
+        navigate('/');
+        return;
+      }
+      navigate(`/${selectedLab}/dashboard`);
     }
     if (!response.ok) {
       alert(json.error);
@@ -41,7 +49,7 @@ const Signup = () => {
 
   return (
     <div className="container">
-      <h1>Admin SignUp</h1>
+      <h1>Admin Login</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Admin Name</label>
@@ -49,7 +57,7 @@ const Signup = () => {
             type="text"
             value={adminName}
             className="form-control"
-            onChange={e =>  setAdminName(e.target.value)}
+            onChange={(e) => setAdminName(e.target.value)}
             placeholder="Enter Name"
           />
         </div>
@@ -60,7 +68,7 @@ const Signup = () => {
             type="email"
             value={adminEmail}
             className="form-control"
-            onChange={e =>  setAdminEmail(e.target.value)}
+            onChange={(e) => setAdminEmail(e.target.value)}
             placeholder="Enter Email"
           />
         </div>
@@ -71,17 +79,17 @@ const Signup = () => {
             type="password"
             value={adminPassword}
             className="form-control"
-            onChange={e => setAdminPassword(e.target.value)}
+            onChange={(e) => setAdminPassword(e.target.value)}
             placeholder="Enter Password"
           />
         </div>
 
         <button className="formbutton" type="submit">
-          Sign up
+          Log In
         </button>
       </form>
     </div>
   );
 };
 
-export default Signup;
+export default Login;

@@ -2,9 +2,6 @@ import React, { useContext, useEffect } from "react";
 import Context from "../../context/StateContext";
 import './Form.css'
 const BasicDetails = ({step, nextStep}) => {
-
-
-  
   const {
     firstName,
     lastName,
