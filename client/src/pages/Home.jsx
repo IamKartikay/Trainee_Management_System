@@ -16,7 +16,7 @@ function Home() {
   }, []);
 
   const fetchData = async () => {
-    await fetch("http://localhost:5001/labs")
+    await fetch("https://trainee-management-system.vercel.app/labs")
       .then((response) => response.json()) // Parse the response as JSON
       .then((data) => {
         setLabs(data); // Update the state with the received data

@@ -19,6 +19,13 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/admin", userRoutes);
 
+app.use(cors({
+  origin: ["https://trainee-management-system.vercel.app"],
+  methods: ["POST", "GET"],
+  credentials: true
+}))
+
+
 //connection
 main().catch((err) => console.log(err));
 async function main() {
